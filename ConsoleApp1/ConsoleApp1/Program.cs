@@ -32,10 +32,14 @@ using ConsoleApp1.Exceptions;
 //
 // Console.ReadLine();
 List<Container> containerList = new List<Container>();
+List<Ship> shipList = new List<Ship>();
 while (true)
 {
     Console.WriteLine("1 - Create container");
     Console.WriteLine("2 - Create ship");
+    Console.WriteLine("3 - Load container onto ship");
+    Console.WriteLine("4 - Print container information");
+    Console.WriteLine("5 - Print ship information");
     Console.WriteLine("3 - Exit");
 
     string input = Console.ReadLine();
@@ -107,12 +111,72 @@ while (true)
             break;
 
         case "2":
-            Console.WriteLine("Ship created successfully.");
+            shipList.Add(new Ship());
             break;
 
         case "3":
-            Console.WriteLine("Exiting the program.");
-            return;
+            Console.WriteLine("Which ship do you want to load the container onto?");
+            Console.WriteLine("Available ships:");
+
+            for (int i = 0; i < shipList.Count; i++) {
+                Console.WriteLine(i);
+            }
+
+            int shipChoice = Console.Read();
+            if (shipChoice > shipList.Count) {
+                Console.WriteLine("Which container do you want to load onto the ship?");
+                Console.WriteLine("Available containers:");
+
+                for (int i = 0; i < containerList.Count; i++) {
+                    Console.WriteLine(i + " - " + containerList[i].SerialNumber);
+                }
+
+                int containerChoiceForShip = Console.Read();
+                if (containerChoiceForShip > containerList.Count)
+                {
+                    shipList[shipChoice].AddContainer(containerList[containerChoiceForShip]);
+                    Console.WriteLine("Container loaded on the ship");
+                }
+            }
+            break;
+        
+        case "4":
+            Console.WriteLine("Available containers:");
+
+            for (int i = 0; i < containerList.Count; i++) {
+                Console.WriteLine(i + " - " + containerList[i].SerialNumber);
+            }
+            int index = Console.Read();
+            if (index <= containerList.Count)
+                break;
+            
+            Container container = containerList[index];
+            if (container != null) {
+                Console.WriteLine("Container Serial Number: " + container.SerialNumber);
+                Console.WriteLine("Cargo Weight: " + container.CargoWeight);
+                Console.WriteLine("Maximum Payload: " + container.MaximumPayload);
+            }else {
+                Console.WriteLine("Container not found");
+            }
+            break;
+        
+        case "5":
+            Console.WriteLine("Enter ship ID:");
+            int index2 = Console.Read();
+            Ship ship = shipList[index2];
+            if (ship != null)
+            {
+                Console.WriteLine($"Ship ID:" + index2);
+                Console.WriteLine("Containers on the ship:");
+                foreach (Container c in ship.containerList)
+                {
+                    Console.WriteLine("Serial Number: " + c.SerialNumber);
+                }
+            }
+            else{
+                Console.WriteLine("Ship not found");
+            }
+            break;
 
         default:
             Console.WriteLine("Invalid input");
