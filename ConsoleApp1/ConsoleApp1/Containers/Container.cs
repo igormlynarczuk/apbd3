@@ -31,7 +31,7 @@ public abstract class Container
     public void LoadCargo(double cargoWeight)
     {
         if (cargoWeight > MaximumPayload) {
-            throw new OverFillException($"Cargo weight {cargoWeight} exceeds maximum payload {MaximumPayload}.");
+            throw new OverFillException("Cargo weight is to high, maximum weight is:"+MaximumPayload);
         }
         else {
             CargoWeight = cargoWeight;
